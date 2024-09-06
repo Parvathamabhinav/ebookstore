@@ -8,7 +8,7 @@ const authenticateToken=(req,res,next)=>{
         return res.status(401).json({message:"Authentication toekn required"});
 
     }
-    jwt.verify(token,"bookstore123",(err,user)=>{
+    jwt.verify(token,"abhi",(err,user)=>{
         if(err){
             return res.status(403).json({message:"Token expired please signin again"});
         }

@@ -2,6 +2,7 @@ const router = require("express").Router();
 const User=require("../models/user")
 const bcrypt=require("bcryptjs")
 const jwt=require("jsonwebtoken")
+const {authenticateToken}=require("./userAuth")
 //Sign up
 router.post("/sign-up",async(req,res)=>{
     try{
@@ -62,7 +63,7 @@ router.post("/sign-in",async(req,res)=>{
                         role:existingUser.role
                     },
                 ];
-                const token=jwt.sign({authClaims},"bookStore123",{expiresIn:"30d",});
+                const token=jwt.sign({authClaims},"abhi",{expiresIn:"30d",});
                 res.status(200).json({
                     id:existingUser.id,
                     role:existingUser.role,
@@ -72,6 +73,19 @@ router.post("/sign-in",async(req,res)=>{
                 res.status(400).json({message:"Invalid password"});
             }
         })
+    }catch(error){
+        res.status(500).json({message:"Internal server error"})
+    }
+})
+
+
+//get-user-info
+router.get("/get-user-information",authenticateToken,async(req,res)=>{
+    try{
+        const {id}=req.headers;
+        const data=await User.findById(id);
+        return res.status(200).json(data);
+
     }catch(error){
         res.status(500).json({message:"Internal server error"})
     }
