@@ -30,7 +30,13 @@ router.post("/sign-up",async(req,res)=>{
             email:email,
             password:password,
             address:address,
+            
         });
+        //to save new user to atlas
+        await newUser.save();
+        //useful when we r using thunderclient
+        return res.status(300).json({message:"Succsesful"})
+       
     }catch(error){
         res.status(500).json({message:"Internal server error"})
     }
