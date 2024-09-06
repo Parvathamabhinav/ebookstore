@@ -4,8 +4,6 @@ const bcrypt=require("bcryptjs")
 const jwt=require("jsonwebtoken")
 const Book=require("../models/book")
 const {authenticateToken}=require("./userAuth")
-
-
 //add book --admin
 router.post("/add-book",authenticateToken,async(req,res)=>{
     try{
@@ -29,7 +27,6 @@ router.post("/add-book",authenticateToken,async(req,res)=>{
         res.status(500).json({message:"Internal server error"})
     }
 })
-
 //update book
 router.put("/update-book",authenticateToken,async(req,res)=>{
     try{
@@ -50,7 +47,6 @@ router.put("/update-book",authenticateToken,async(req,res)=>{
         res.status(500).json({message:"Internal server error"})
     }
 })
-
 //delete book
 router.delete("/delete-book",authenticateToken,async(req,res)=>{
     try{
@@ -61,11 +57,10 @@ router.delete("/delete-book",authenticateToken,async(req,res)=>{
         return res.status(400).json({message:"Internal server problem"})
     }
 })
-
 //get all books
 router.get("/get-all-books",async(req,res)=>{
     try{
-        const books=await Book.find().sort({createdAt:-1}).limit(1);//created at -1 implies the books that are recently created
+        const books=await Book.find().sort({createdAt:-1})//limit(1);//created at -1 implies the books that are recently created
         return res.json({
             status:"Success",
             data:books,
@@ -74,7 +69,6 @@ router.get("/get-all-books",async(req,res)=>{
         return res.json({message:"Internal error"})
     }
 })
-
 //get particular book by id
 router.get("/get-book-by-id/:id",async(req,res)=>{
     try{

@@ -1,6 +1,6 @@
 const mongoose=require("mongoose");
 
-const book=new mongoose.Schema({
+const books=new mongoose.Schema({
     url:{
         type:String,
         required:true,
@@ -27,4 +27,4 @@ const book=new mongoose.Schema({
     },
 },
 {timestamps:true})
-module.exports=mongoose.model("book",book);
+module.exports=mongoose.model("books",books);

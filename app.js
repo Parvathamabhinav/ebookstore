@@ -5,8 +5,12 @@ require("dotenv").config();
 require("./conn/conn")
 const User=require("./routes/user")
 const Books=require("./routes/book")
+const favourite=require("./routes/favourite")
+
 app.use("/api/v1",User)
 app.use("/api/v1",Books)
+app.use("/api/v1",favourite)
+
 
 app.get("/",(req,res)=>{
     res.send("Hello from backend ")
