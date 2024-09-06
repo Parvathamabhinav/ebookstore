@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const User=require("../models/user")
+const bcrypt=require("bcrypt")
 //Sign up
 router.post("/sign-up",async(req,res)=>{
     try{
@@ -24,18 +25,18 @@ router.post("/sign-up",async(req,res)=>{
             return res.status(400).json({message:"password length >5"})
        
         }
-
+        const hashPass=await bcrypt.hash(password,10)
         const newUser= new User({
             username:username,
             email:email,
-            password:password,
+            password:hashPass,
             address:address,
             
         });
         //to save new user to atlas
         await newUser.save();
         //useful when we r using thunderclient
-        return res.status(300).json({message:"Succsesful"})
+        return res.status(300).json({message:"Successful"})
        
     }catch(error){
         res.status(500).json({message:"Internal server error"})
