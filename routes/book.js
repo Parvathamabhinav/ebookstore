@@ -19,13 +19,34 @@ router.post("/add-book",authenticateToken,async(req,res)=>{
             title:req.body.title,
             author:req.body.author,
             price:req.body.price,
-            desc:req.body.price,
+            desc:req.body.desc,
             language:req.body.language,
         })
         await book.save();
         res.status(200).json({message:"Book added succesfully"});
     }
     catch(error){
+        res.status(500).json({message:"Internal server error"})
+    }
+})
+
+//update book
+router.put("/update-book",authenticateToken,async(req,res)=>{
+    try{
+        const {bookid}=req.headers;
+        await Book.findByIdAndUpdate(bookid,{
+            url:req.body.url,
+            title:req.body.title,
+            author:req.body.author,
+            price:req.body.price,
+            desc:req.body.desc,
+            language:req.body.language,
+        });
+        
+        return res.status(200).json({message:"Book updated succesfully"});
+    }
+    catch(error){
+        console.log(error)
         res.status(500).json({message:"Internal server error"})
     }
 })
