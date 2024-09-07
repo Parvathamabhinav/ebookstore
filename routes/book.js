@@ -60,6 +60,7 @@ router.delete("/delete-book",authenticateToken,async(req,res)=>{
 //get all books
 router.get("/get-all-books",async(req,res)=>{
     try{
+        //find() will get all books
         const books=await Book.find().sort({createdAt:-1})//limit(1);//created at -1 implies the books that are recently created
         return res.json({
             status:"Success",

@@ -27,7 +27,10 @@ router.post("/sign-up",async(req,res)=>{
             return res.status(400).json({message:"password length >5"})
        
         }
+        //bcrpytjs  for hashing
+
         const hashPass=await bcrypt.hash(password,10)
+        //how do u create a new user
         const newUser= new User({
             username:username,
             email:email,
@@ -53,8 +56,11 @@ router.post("/sign-in",async(req,res)=>{
         if(!existingUser){
             res.status(400).json({message:"Invalid credentials"});
         }
+        //how to compare two passwords?
         await bcrypt.compare(password,existingUser.password,(err,data)=>{
+            //what is data
             if(data){
+                //know the below lines
                 const authClaims=[
                     {
                         name:existingUser.username
@@ -63,6 +69,7 @@ router.post("/sign-in",async(req,res)=>{
                         role:existingUser.role
                     },
                 ];
+                //creating token 
                 const token=jwt.sign({authClaims},"abhi",{expiresIn:"30d",});
                 res.status(200).json({
                     id:existingUser.id,

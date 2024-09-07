@@ -12,6 +12,7 @@ router.put("/add-book-to-favourite",authenticateToken,async(req,res)=>{
         if(isBookFavourite){
             return res.status(200).json({message:"Book already in favourites"});
         }
+        //$push is used to add element to array
         await User.findByIdAndUpdate(id,{$push:{favourites: bookid}});
         return res.json({message:"Book added to favourites"}) 
     }catch(error){

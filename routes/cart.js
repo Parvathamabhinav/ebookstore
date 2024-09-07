@@ -27,10 +27,12 @@ router.put("/add-to-cart",authenticateToken,async(req,res)=>{
 })
 
 //remove from cart
+//put instead of delete is used bcoz we r not removing book from database.
 router.put("/remove-from-cart/:bookid",authenticateToken,async(req,res)=>{
     try{
         const {bookid}=req.params;
         const {id}=req.headers;
+        //$pull is used to remove elements from array
         await User.findByIdAndUpdate(id,{
             $pull:{cart:bookid},
         });
@@ -40,6 +42,25 @@ router.put("/remove-from-cart/:bookid",authenticateToken,async(req,res)=>{
         })    
     }catch(error){
         return res.json({message:"Internal error"})
+    }
+})
+
+//get cart of a particular user
+router.get("/get-user-cart",authenticateToken,async(req,res)=>{
+    try{
+        const {id}=req.headers;
+        // console.log("1");
+        const userData=await User.findById(id).populate("cart");//remove populate and see
+
+        const cart=userData.cart.reverse();//why reverse()
+       
+        return res.json({
+            status:"Success",
+            data:cart,
+        });
+    }catch(error){
+        console.log(error)
+        res.json({message:"Internal server problem"})
     }
 })
 
